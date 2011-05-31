@@ -1,11 +1,17 @@
 var sys = require('sys'),
     http = require('http'),
-    io = require('./lib/socket.io'),
+    io = require('socket.io'),
     url = require('url'),
     fs = require('fs');
     
 var server = http.createServer(function(request, response) {
   var path = url.parse(request.url).pathname;
+  if(path == '/')
+    path = '/client/index.html';
+  else
+    path = '/client' + path;
+
+  //console.log(path);
   fs.readFile(__dirname + path, function(error, data){
     if(error) return send404(response);
     response.writeHead(200, {
@@ -21,7 +27,7 @@ server.listen(8000);
 
 var io = io.listen(server);
 io.on('connection', function(client){
-  console.log(client.listener.clients.length);
+  //console.log(client.listener.clients.length);
   client.on('message', function(message){
     var el = JSON.parse(message);
     client.broadcast(el);
