@@ -1,9 +1,12 @@
+//Libraries
+//Make sure you have installed all the libraries using npm
 var sys = require('sys'),
     http = require('http'),
     io = require('socket.io'),
     url = require('url'),
     fs = require('fs');
-    
+
+//Simple server for delivering files  
 var server = http.createServer(function(request, response) {
   var path = url.parse(request.url).pathname;
   if(path == '/')
@@ -25,9 +28,11 @@ var server = http.createServer(function(request, response) {
 
 server.listen(8000);
 
+//Socket for listening to connect
 var io = io.listen(server);
 io.on('connection', function(client){
   //console.log(client.listener.clients.length);
+  //On each ping data taken from one socket and broadcast to other systems
   client.on('message', function(message){
     var el = JSON.parse(message);
     client.broadcast(el);
