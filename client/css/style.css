@@ -1,0 +1,12 @@
+body {
+  background : url(../images/pattern.png) repeat;
+  overflow:hidden;
+}
+
+#draggable {
+  background:#FFF;
+  cursor:move;
+  width:300px;
+  height:100px;
+  position:absolute;
+}
